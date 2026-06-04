@@ -55,7 +55,7 @@ CONTENT_BASE: /你的路径/content-system
 
 ### 微信公众号配置（使用上传功能时必填）
 
-在 `~/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md` 中填入你的账号信息：
+在 `~/.claude/skills/baoyu-post-to-wechat/EXTEND.md` 中填入你的账号信息：
 
 ```yaml
 accounts:

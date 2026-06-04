@@ -35,25 +35,25 @@ Check EXTEND.md existence (priority order):
 
 ```bash
 # macOS, Linux, WSL, Git Bash
-test -f .baoyu-skills/baoyu-post-to-wechat/EXTEND.md && echo "project"
-test -f "${XDG_CONFIG_HOME:-$HOME/.config}/baoyu-skills/baoyu-post-to-wechat/EXTEND.md" && echo "xdg"
-test -f "$HOME/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md" && echo "user"
+test -f .claude/skills/baoyu-post-to-wechat/EXTEND.md && echo "project"
+test -f "${XDG_CONFIG_HOME:-$HOME/.config}/claude/skills/baoyu-post-to-wechat/EXTEND.md" && echo "xdg"
+test -f "$HOME/.claude/skills/baoyu-post-to-wechat/EXTEND.md" && echo "user"
 ```
 
 ```powershell
 # PowerShell (Windows)
-if (Test-Path .baoyu-skills/baoyu-post-to-wechat/EXTEND.md) { "project" }
+if (Test-Path .claude/skills/baoyu-post-to-wechat/EXTEND.md) { "project" }
 $xdg = if ($env:XDG_CONFIG_HOME) { $env:XDG_CONFIG_HOME } else { "$HOME/.config" }
-if (Test-Path "$xdg/baoyu-skills/baoyu-post-to-wechat/EXTEND.md") { "xdg" }
-if (Test-Path "$HOME/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md") { "user" }
+if (Test-Path "$xdg/claude/skills/baoyu-post-to-wechat/EXTEND.md") { "xdg" }
+if (Test-Path "$HOME/.claude/skills/baoyu-post-to-wechat/EXTEND.md") { "user" }
 ```
 
 ┌────────────────────────────────────────────────────────┬───────────────────┐
 │                          Path                          │     Location      │
 ├────────────────────────────────────────────────────────┼───────────────────┤
-│ .baoyu-skills/baoyu-post-to-wechat/EXTEND.md           │ Project directory │
+│ .claude/skills/baoyu-post-to-wechat/EXTEND.md           │ Project directory │
 ├────────────────────────────────────────────────────────┼───────────────────┤
-│ $HOME/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md     │ User home         │
+│ $HOME/.claude/skills/baoyu-post-to-wechat/EXTEND.md     │ User home         │
 └────────────────────────────────────────────────────────┴───────────────────┘
 
 ┌───────────┬───────────────────────────────────────────────────────────────────────────┐
@@ -168,8 +168,8 @@ For a selected account with alias `{alias}`:
 
 1. `app_id` / `app_secret` inline in EXTEND.md account block
 2. Env var `WECHAT_{ALIAS}_APP_ID` / `WECHAT_{ALIAS}_APP_SECRET` (alias uppercased, hyphens → underscores)
-3. `.baoyu-skills/.env` with prefixed key `WECHAT_{ALIAS}_APP_ID`
-4. `~/.baoyu-skills/.env` with prefixed key
+3. `.claude/skills/baoyu-post-to-wechat/.env` with prefixed key `WECHAT_{ALIAS}_APP_ID`
+4. `~/.claude/skills/baoyu-post-to-wechat/.env` with prefixed key
 5. Fallback to unprefixed `WECHAT_APP_ID` / `WECHAT_APP_SECRET`
 
 **.env multi-account example**:
@@ -219,13 +219,13 @@ Checks: Chrome, profile isolation, Bun, Accessibility, clipboard, paste keystrok
 | Check | Fix |
 |-------|-----|
 | Chrome | Install Chrome or set `WECHAT_BROWSER_CHROME_PATH` env var |
-| Profile dir | Shared profile at `baoyu-skills/chrome-profile` (see CLAUDE.md Chrome Profile section) |
+| Profile dir | Shared profile at `.claude/skills/baoyu-post-to-wechat/chrome-profile` (see CLAUDE.md Chrome Profile section) |
 | Bun runtime | `brew install oven-sh/bun/bun` (macOS) or `npm install -g bun` |
 | Accessibility (macOS) | System Settings → Privacy & Security → Accessibility → enable terminal app |
 | Clipboard copy | Ensure Swift/AppKit available (macOS Xcode CLI tools: `xcode-select --install`) |
 | Paste keystroke (macOS) | Same as Accessibility fix above |
 | Paste keystroke (Linux) | Install `xdotool` (X11) or `ydotool` (Wayland) |
-| API credentials | Follow guided setup in Step 2, or manually set in `.baoyu-skills/.env` |
+| API credentials | Follow guided setup in Step 2, or manually set in `.claude/skills/baoyu-post-to-wechat/.env` |
 
 ## Image-Text Posting (图文)
 
@@ -303,14 +303,14 @@ mkdir -p "$(pwd)/post-to-wechat/$(date +%Y-%m-%d)"
 
 ```bash
 # macOS, Linux, WSL, Git Bash
-test -f .baoyu-skills/.env && grep -q "WECHAT_APP_ID" .baoyu-skills/.env && echo "project"
-test -f "$HOME/.baoyu-skills/.env" && grep -q "WECHAT_APP_ID" "$HOME/.baoyu-skills/.env" && echo "user"
+test -f .claude/skills/baoyu-post-to-wechat/.env && grep -q "WECHAT_APP_ID" .claude/skills/baoyu-post-to-wechat/.env && echo "project"
+test -f "$HOME/.claude/skills/baoyu-post-to-wechat/.env" && grep -q "WECHAT_APP_ID" "$HOME/.claude/skills/baoyu-post-to-wechat/.env" && echo "user"
 ```
 
 ```powershell
 # PowerShell (Windows)
-if ((Test-Path .baoyu-skills/.env) -and (Select-String -Quiet -Pattern "WECHAT_APP_ID" .baoyu-skills/.env)) { "project" }
-if ((Test-Path "$HOME/.baoyu-skills/.env") -and (Select-String -Quiet -Pattern "WECHAT_APP_ID" "$HOME/.baoyu-skills/.env")) { "user" }
+if ((Test-Path .claude/skills/baoyu-post-to-wechat/.env) -and (Select-String -Quiet -Pattern "WECHAT_APP_ID" .claude/skills/baoyu-post-to-wechat/.env)) { "project" }
+if ((Test-Path "$HOME/.claude/skills/baoyu-post-to-wechat/.env") -and (Select-String -Quiet -Pattern "WECHAT_APP_ID" "$HOME/.claude/skills/baoyu-post-to-wechat/.env")) { "user" }
 ```
 
 **If Credentials Missing - Guide Setup**:
@@ -324,8 +324,8 @@ To obtain credentials:
 3. Copy AppID and AppSecret
 
 Where to save?
-A) Project-level: .baoyu-skills/.env (this project only)
-B) User-level: ~/.baoyu-skills/.env (all projects)
+A) Project-level: .claude/skills/baoyu-post-to-wechat/.env (this project only)
+B) User-level: ~/.claude/skills/baoyu-post-to-wechat/.env (all projects)
 ```
 
 After location choice, prompt for values and write to `.env`:
@@ -479,7 +479,7 @@ Files created:
 
 **For API method**:
 - WeChat Official Account API credentials
-- Guided setup in Step 2, or manually set in `.baoyu-skills/.env`
+- Guided setup in Step 2, or manually set in `.claude/skills/baoyu-post-to-wechat/.env`
 
 **For Browser method**:
 - Google Chrome
@@ -487,8 +487,8 @@ Files created:
 
 **Config File Locations** (priority order):
 1. Environment variables
-2. `<cwd>/.baoyu-skills/.env`
-3. `~/.baoyu-skills/.env`
+2. `<cwd>/.claude/skills/baoyu-post-to-wechat/.env`
+3. `~/.claude/skills/baoyu-post-to-wechat/.env`
 
 ## Troubleshooting
 
