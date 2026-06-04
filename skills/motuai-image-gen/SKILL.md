@@ -84,7 +84,20 @@ description: |
 
 ## 第二步：生成提示词
 
-基于确认的5维参数，生成一段**中文描述性提示词**，直接粘贴进魔兔AI输入框。
+**生成提示词前，必须读取以下参考文件，获取精确的颜色值、风格特征和构图规则：**
+
+```
+~/.claude/skills/motuai-image-gen/references/palettes/{确认的palette}.md   # 精确颜色值
+~/.claude/skills/motuai-image-gen/references/renderings/{确认的rendering}.md  # 风格特征
+~/.claude/skills/motuai-image-gen/references/types.md                        # 构图规则
+~/.claude/skills/motuai-image-gen/references/dimensions/mood.md              # 情绪强度
+~/.claude/skills/motuai-image-gen/references/dimensions/text.md              # 文字层级
+```
+
+可按需参考：
+- `references/visual-elements.md`：主题→图标词汇对照（如"成长"→火箭/植物/箭头）
+
+基于以上参考文件内容，生成一段**中文描述性提示词**，直接粘贴进魔兔AI输入框。
 
 提示词结构：
 ```
