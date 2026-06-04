@@ -53,6 +53,25 @@ CONTENT_BASE: /你的路径/content-system
 
 你的内容系统目录可以自由组织，只要在配置里写清楚路径就行。
 
+### 微信公众号配置（使用上传功能时必填）
+
+在 `~/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md` 中填入你的账号信息：
+
+```yaml
+accounts:
+  - name: 你的公众号名称
+    alias: your_alias
+    default: true
+    default_publish_method: api
+    default_author: 你的名字
+    need_open_comment: 1
+    only_fans_can_comment: 0
+    app_id: 你的AppID
+    app_secret: 你的AppSecret
+```
+
+AppID 和 AppSecret 在微信公众平台 → 设置与开发 → 基本配置中获取。**此文件包含私密信息，不要提交到 git。**
+
 ---
 
 ## 写作流程
@@ -79,6 +98,7 @@ CONTENT_BASE: /你的路径/content-system
 | `fact-check` | 文章发布前事实核查 | 本 repo `skills/fact-check/` |
 | `humanizer-zh` | 去除 AI 写作痕迹 | 本 repo `skills/humanizer-zh/` |
 | `web-access` | 抓取网页内容（热点类文章用） | 本 repo `skills/web-access/` |
+| `baoyu-post-to-wechat` | 上传文章到微信公众号 | 本 repo `skills/baoyu-post-to-wechat/` |
 
 ---
 
