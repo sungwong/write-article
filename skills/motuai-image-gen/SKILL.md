@@ -193,37 +193,62 @@ if (el) {
 sleep 1
 ```
 
-截图确认内容填入正确后，点击生成按钮：
+截图确认内容填入正确后，点击生成按钮。
+
+**生成按钮识别**：魔兔AI的生成按钮是右侧橙色按钮（无文字，只有箭头图标），背景色为 `rgb(243, 113, 32)`：
 
 ```bash
+# 用背景色找橙色生成按钮（已验证有效）
 curl -s -X POST "http://localhost:3456/eval?target=$TARGET" -d '
-const btns = Array.from(document.querySelectorAll("button"));
-const btn = btns.find(b => b.querySelector("svg") || b.className.includes("submit") || b.className.includes("send"));
-btn?.click();
+var btns = Array.from(document.querySelectorAll("button"));
+var orangeBtn = btns.filter(function(b){
+  return window.getComputedStyle(b).backgroundColor === "rgb(243, 113, 32)";
+});
+var sendBtn = orangeBtn[orangeBtn.length - 1];
+sendBtn && sendBtn.click();
+sendBtn ? "clicked" : "not found"
 '
 ```
 
-### 3.5 等待生成，下载图片
+> 如果返回 "not found"，截图查看页面状态再判断。
 
-生成通常需要 15-40 秒，每隔 8 秒截图检查进度：
+### 3.5 等待生成
+
+**提交后立即跳转到「我的作品」页面等待**，比留在首页更容易判断进度：
+
+```bash
+curl -s -X POST "http://localhost:3456/eval?target=$TARGET" -d '
+Array.from(document.querySelectorAll("button")).find(function(b){
+  return b.innerText.trim() === "我的作品";
+}).click()
+'
+sleep 3
+curl -s "http://localhost:3456/screenshot?target=$TARGET&file=/tmp/motuai_progress.png"
+```
+
+生成通常需要 30-60 秒。截图里左上角的图片还在转圈说明未完成，出现完整图片说明完成。
+
+每隔 15 秒截图一次，直到完成：
 
 ```bash
 sleep 15
 curl -s "http://localhost:3456/screenshot?target=$TARGET&file=/tmp/motuai_result.png"
 ```
 
-**生成完成判断：** 页面出现完整图片，无转圈加载动画。
+### 3.5b 下载图片
 
-提取图片 URL 并下载：
+**图片存储在 `todaylab.cn/generations/` 下**（非页面 logo）。提取并下载：
 
 ```bash
-IMG_URL=$(curl -s -X POST "http://localhost:3456/eval?target=$TARGET" -d '
-Array.from(document.querySelectorAll("img"))
-  .filter(img => img.naturalWidth > 400)
-  .map(img => img.src)
-  .find(src => src.startsWith("http"))
+IMGS=$(curl -s -X POST "http://localhost:3456/eval?target=$TARGET" -d '
+var imgs = Array.from(document.querySelectorAll("img")).filter(function(img){
+  return img.naturalWidth > 300 && img.src && img.src.includes("todaylab.cn/generations");
+});
+imgs.map(function(img){ return img.src; }).join("\n")
 ' | python3 -c "import sys,json; print(json.load(sys.stdin).get('value',''))")
 
+# 下载第一张（通常是最新生成的）
+IMG_URL=$(echo "$IMGS" | head -1)
 FILENAME="魔兔_$(date +%Y%m%d_%H%M)"
 curl -L "$IMG_URL" -o ~/Desktop/"$FILENAME".png
 open -a "Preview" ~/Desktop/"$FILENAME".png
